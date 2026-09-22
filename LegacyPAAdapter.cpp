@@ -4,11 +4,13 @@
 
 using namespace std;
 
-LegacyPAAdapter::LegacyPAAdapter() : legacySystem( new LegacyPagingSystem()) {}
-LegacyPAAdapter::~LegacyPAAadapter()
+LegacyPAAdapter::LegacyPAAdapter()  {
+    legacySystem = new LegacyPagingSystem();
+}
+LegacyPAAdapter::~LegacyPAAdapter()
 {
 delete legacySystem;
-legacySystem = 0;
+legacySystem = nullptr;
 }
 
 int LegacyPAAdapter::parseZoneToCode( const string& zone) {
