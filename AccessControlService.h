@@ -17,7 +17,7 @@ class AccessControlService : public Colleague
 
         virtual std::string getEvent() override;
         virtual std::string getPayload() override;
-        virtual void handlEvent(std::string payload) override;
+        virtual void handleEvent(std::string payload) override;
 
         void restrictDoors(std::string location);
         void unlockEmergencyExits(std::string location);
