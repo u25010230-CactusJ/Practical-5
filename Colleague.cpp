@@ -12,3 +12,13 @@ void Colleague::changed()
         mediator->notify(this);
     }
 }
+
+std::string Colleague::getEvent() const
+{
+    return this->event;
+}
+
+std::string Colleague::getPayload() const
+{
+    return this->payload;
+}

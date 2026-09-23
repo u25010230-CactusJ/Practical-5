@@ -8,13 +8,15 @@ class Colleague
 {
     protected:
         IMediator* mediator;
+        std::string event;
+        std::string payload;
 
     public:
         explicit Colleague(IMediator* mediator);
         virtual void changed();
 
-        virtual std::string getEvent() const = 0;
-        virtual std::string getPayload() const = 0;
+        virtual std::string getEvent() const;
+        virtual std::string getPayload() const;
 
         virtual void handleEvent(const std::string& payload) = 0;
         virtual ~Colleague() = default;

@@ -8,16 +8,10 @@ class IMediator;
 
 class SecurityService : public Colleague
 {
-    private:
-        std::string event;
-        std::string payload;
-
     public:
         SecurityService(IMediator* mediator);
 
-        virtual std::string getEvent() override;
-        virtual std::string getPayload() override;
-        virtual void handleEvent(std::string payload) override;
+        virtual void handleEvent(const std::string& payload) override;
 
         void dispatchTeam(std::string location);
         void lockdownArea(std::string location);
