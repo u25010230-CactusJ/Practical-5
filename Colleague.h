@@ -10,13 +10,13 @@ class Colleague
         IMediator* mediator;
 
     public:
-        Colleague(IMediator* mediator);
-        void changed();
+        explicit Colleague(IMediator* mediator);
+        virtual void changed();
 
-        virtual std::string getEvent() = 0;
-        virtual std::string getPayload() = 0;
+        virtual std::string getEvent() const = 0;
+        virtual std::string getPayload() const = 0;
 
-        virtual void handleEvent(std::string payload) = 0;
+        virtual void handleEvent(const std::string& payload) = 0;
         virtual ~Colleague() = default;
 };
 
