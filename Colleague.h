@@ -16,7 +16,7 @@ class Colleague
         virtual std::string getEvent() = 0;
         virtual std::string getPayload() = 0;
 
-        virtual void handlEvent(std::string payload) = 0;
+        virtual void handleEvent(std::string payload) = 0;
         virtual ~Colleague() = default;
 };
 
