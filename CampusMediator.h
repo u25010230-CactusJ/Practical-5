@@ -14,7 +14,7 @@ class CampusMediator : public IMediator
         void deregisterColleague(Colleague* newCol);
         virtual void notify(Colleague* sender) override;
         
-        ~CampusMediator() override;
+        ~CampusMediator() override = default;
 };
 
 #endif /*CAMPUSMEDIATOR_H*/
