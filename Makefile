@@ -20,4 +20,7 @@ clean:
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TARGET)
 
-.PHONY: all clean valgrind
+gdb:
+	gdb ./$(TARGET)
+
+.PHONY: all clean valgrind gdb
