@@ -7,5 +7,8 @@ Colleague::Colleague(IMediator* mediator)
 
 void Colleague::changed()
 {
-    this->mediator->notify(this);
+    if(mediator != nullptr)
+    {
+        mediator->notify(this);
+    }
 }
