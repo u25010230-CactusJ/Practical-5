@@ -17,7 +17,7 @@ class SecurityService : public Colleague
 
         virtual std::string getEvent() override;
         virtual std::string getPayload() override;
-        virtual void handlEvent(std::string payload) override;
+        virtual void handleEvent(std::string payload) override;
 
         void dispatchTeam(std::string location);
         void lockdownArea(std::string location);
