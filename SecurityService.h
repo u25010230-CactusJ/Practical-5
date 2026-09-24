@@ -13,6 +13,7 @@ class SecurityService : public Colleague
 
         void dispatchTeam(std::string location);
         void lockdownArea(std::string location);
+        void cancelDispatch(std::string location);
 
         virtual bool handleEvent(const std::string& event, const std::string& payload) override;
 

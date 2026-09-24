@@ -26,6 +26,11 @@ void SecurityService::lockdownArea(std::string location)
     changed();
 }
 
+void SecurityService::cancelDispatch(std::string location)
+{
+    std::cout << "[Security] Cancelling security dispatch to " << location << std::endl;
+}
+
 bool SecurityService::handleEvent(const std::string& event, const std::string& payload)
 {
     if(event == "MEDICAL_REQUESTED")
