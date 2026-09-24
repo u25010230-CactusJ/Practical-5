@@ -19,12 +19,6 @@ class LockBuildingCommand : public ICommand
         virtual void execute() override;
         virtual void undo() override;
 
-        std::string getLocation();
-        void setLocation(std::string location);
-
-        AccessControlService* getReceiver();
-        void setReceiver(AccessControlService* accessControl);
-
         ~LockBuildingCommand() override = default;
 };
 
