@@ -12,7 +12,7 @@ void BroadcastAlertCommand::execute()
 
 void BroadcastAlertCommand::undo()
 {
-
+    notifier->cancelAlert(location);
 }
 
 std::string BroadcastAlertCommand::getLocation()
