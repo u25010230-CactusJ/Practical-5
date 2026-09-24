@@ -1,5 +1,6 @@
 #include "CampusMediator.h"
 #include "Colleague.h"
+#include <iostream>
 
 void CampusMediator::registerColleague(Colleague* newCol)
 {
@@ -32,23 +33,18 @@ void CampusMediator::deregisterColleague(Colleague* newCol)
 
 void CampusMediator::notify(Colleague* sender)
 {
-    //string event = sender->getEvent();
+    if(sender == nullptr) return;
+
+    std::string event = sender->getEvent();
     std::string payload = sender->getPayload();
 
-    for(auto col : this->colleagues)
-    {
-        if(col != sender)
-        {
-            col->handlEvent(payload);
-        }
-    }
-}
+    std::cout << "[Mediator] Received event: " << event << " for " << payload << std::endl;
 
-CampusMediator::~CampusMediator()
-{
-    std::vector<Colleague*>::iterator it = this->colleagues.begin();
-    while(it != colleagues.end())
+    for(Colleague* colleague : colleagues)
     {
-        this->colleagues.erase(it);
+        if(colleague != nullptr && colleague != sender)
+        {
+            colleague->handleEvent(event, payload);
+        }
     }
 }
