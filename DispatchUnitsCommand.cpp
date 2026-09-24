@@ -20,13 +20,3 @@ void DispatchUnitsCommand::undo()
         this->executed = false;
     }
 }
-
-SecurityService* DispatchUnitsCommand::getReceiver()
-{
-    return this->security;
-}
-
-void DispatchUnitsCommand::setReceiver(SecurityService* security)
-{
-    this->security = security;
-}

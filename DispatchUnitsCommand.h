@@ -20,9 +20,6 @@ class DispatchUnitsCommand : public ICommand
         virtual void execute() override;
         virtual void undo() override;
 
-        SecurityService* getReceiver();
-        void setReceiver(SecurityService* security);
-        
         ~DispatchUnitsCommand() override = default;
 };
 
