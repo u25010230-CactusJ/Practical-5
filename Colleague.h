@@ -18,7 +18,7 @@ class Colleague
         virtual std::string getEvent() const;
         virtual std::string getPayload() const;
 
-        virtual void handleEvent(const std::string& event, const std::string& payload) = 0;
+        virtual bool handleEvent(const std::string& event, const std::string& payload) = 0;
         virtual ~Colleague() = default;
 };
 

@@ -37,6 +37,7 @@ void CampusMediator::notify(Colleague* sender)
 
     std::string event = sender->getEvent();
     std::string payload = sender->getPayload();
+    bool handled = false;
 
     std::cout << "[Mediator] Received event: " << event << " for " << payload << std::endl;
 
@@ -44,7 +45,15 @@ void CampusMediator::notify(Colleague* sender)
     {
         if(colleague != nullptr && colleague != sender)
         {
-            colleague->handleEvent(event, payload);
+            if(colleague->handleEvent(event, payload))
+            {
+                handled = true;
+            }
         }
+    }
+
+    if(!handled)
+    {
+        std::cout << "[Mediator] WARNING: No colleague handled event '" << event << "'" << std::endl;
     }
 }
