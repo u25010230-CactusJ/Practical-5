@@ -8,6 +8,7 @@ DispatchUnitsCommand::DispatchUnitsCommand(SecurityService* security, IncidentCo
 
 void DispatchUnitsCommand::execute()
 {
+    this->incident->dispatch();
     this->security->dispatchTeam(this->incident->getLocation());
     this->executed = true;
 }
