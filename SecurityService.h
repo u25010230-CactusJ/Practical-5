@@ -14,7 +14,7 @@ class SecurityService : public Colleague
         void dispatchTeam(std::string location);
         void lockdownArea(std::string location);
 
-        virtual void handleEvent(const std::string& event, const std::string& payload) override;
+        virtual bool handleEvent(const std::string& event, const std::string& payload) override;
 
         ~SecurityService() override = default;
 };

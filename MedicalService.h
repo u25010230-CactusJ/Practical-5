@@ -11,8 +11,9 @@ class MedicalService : public Colleague
     public:
         explicit MedicalService(IMediator* mediator);
 
+        void MedicalService::requestMedicalAssistance(std::string location);
         void prepareResponse(std::string location);
-        void handleEvent(const std::string& event, const std::string& payload) override;
+        bool handleEvent(const std::string& event, const std::string& payload) override;
 
         ~MedicalService() override = default;
 };

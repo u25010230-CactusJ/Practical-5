@@ -26,10 +26,16 @@ void SecurityService::lockdownArea(std::string location)
     changed();
 }
 
-void SecurityService::handleEvent(const std::string& event, const std::string& payload)
+bool SecurityService::handleEvent(const std::string& event, const std::string& payload)
 {
-    if(event == "AREA_LOCKDOWN")
+    if(event == "MEDICAL_REQUESTED")
     {
         dispatchTeam(payload);
+        return true;
+    }
+    else
+    {
+        std::cout << "[Security] Unsupported event: " << event << std::endl;
+        return false;
     }
 }
