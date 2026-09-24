@@ -9,14 +9,14 @@ class IMediator;
 class SecurityService : public Colleague
 {
     public:
-        SecurityService(IMediator* mediator);
-
-        virtual void handleEvent(const std::string& payload) override;
+        explicit SecurityService(IMediator* mediator);
 
         void dispatchTeam(std::string location);
         void lockdownArea(std::string location);
 
-        ~SecurityService() override;
+        virtual void handleEvent(const std::string& event, const std::string& payload) override;
+
+        ~SecurityService() override = default;
 };
 
 #endif /*SECURITYSERVICE_H*/
