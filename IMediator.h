@@ -10,4 +10,4 @@ class IMediator
         virtual ~IMediator() = default;
 };
 
-#endif; /*IMEDIATOR_H*/
+#endif /*IMEDIATOR_H*/
