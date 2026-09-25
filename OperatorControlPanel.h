@@ -13,7 +13,7 @@ class OperatorControlPanel
         void submitAndExecute(ICommand* command);
         void undoLastAction();
 
-        ~OperatorControlPanel() = default;
+        ~OperatorControlPanel();
 };
 
 #endif /*OPERATORCONTROLPANEL_H*/
