@@ -7,9 +7,11 @@ std::string ResolvedState::getName() {
 }
 
 void ResolvedState::handleDispatch(IncidentContext& context) {
-    std::cout << "[ResolvedState] [INVALID ACTION] Incident is already resolved. Cannot re-dispatch." << std::endl;
+    std::cout << "[ResolvedState] [INVALID ACTION] Incident " << context.getId() 
+              << " at " << context.getLocation() << " is already resolved. Cannot re-dispatch." << std::endl;
 }
 
 void ResolvedState::handleResolve(IncidentContext& context) {
-    std::cout << "[ResolvedState] Incident is already marked as Resolved." << std::endl;
+    std::cout << "[ResolvedState] Incident " << context.getId() 
+              << " is already marked as Resolved." << std::endl;
 }

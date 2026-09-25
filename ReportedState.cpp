@@ -8,11 +8,13 @@ std::string ReportedState::getName() {
 }
 
 void ReportedState::handleDispatch(IncidentContext& context) {
-    std::cout << "[ReportedState] Dispatching units to location: " << context.getLocation() << "..." << std::endl;
+    std::cout << "[ReportedState] Dispatching units to location: " << context.getLocation() 
+              << " for Incident " << context.getId() << "..." << std::endl;
     // Transition state from Reported -> Active
     context.setState(new ActiveState());
 }
 
 void ReportedState::handleResolve(IncidentContext& context) {
-    std::cout << "[ReportedState] [INVALID ACTION] Cannot directly resolve an incident from Reported state! Dispatch responders first." << std::endl;
+    std::cout << "[ReportedState] [INVALID ACTION] Cannot directly resolve Incident " << context.getId() 
+              << " at " << context.getLocation() << " from Reported state! Dispatch responders first." << std::endl;
 }
