@@ -1,4 +1,4 @@
-#ifndef INCIDENTSTATE_H
+
 #ifndef INCIDENTSTATE_H
 #define INCIDENTSTATE_H
 
