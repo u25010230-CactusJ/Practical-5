@@ -32,3 +32,18 @@ void OperatorControlPanel::undoLastAction()
     command->undo();
     history.pop();
 }
+
+OperatorControlPanel::~OperatorControlPanel()
+{
+    while(!history.empty())
+    {
+        ICommand* command = history.top();
+
+        if(command != nullptr)
+        {
+            delete command;
+        }
+        
+        history.pop();
+    }
+}
