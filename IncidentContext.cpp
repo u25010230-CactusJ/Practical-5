@@ -1,13 +1,14 @@
 #include "IncidentContext.h"
 #include "IncidentState.h"
 #include "ReportedState.h"
+#include "IIncidentObserver.h"
 #include <iostream>
+#include <algorithm>
 
 IncidentContext::IncidentContext(std::string id, std::string loc)
     : incidentId(id), location(loc) {
-    // Initial default state set to ReportedState
     currentState = new ReportedState();
-    std::cout << "[IncidentContext] Incident created: " << incidentId 
+    std::cout << "[IncidentContext] Registered Incident " << incidentId 
               << " at " << location << " | Initial State: " << getStateName() << std::endl;
 }
 
@@ -16,11 +17,33 @@ IncidentContext::~IncidentContext() {
     currentState = nullptr;
 }
 
+void IncidentContext::attach(IIncidentObserver* observer) {
+    if (observer) {
+        observers.push_back(observer);
+    }
+}
+
+void IncidentContext::detach(IIncidentObserver* observer) {
+    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+}
+
+void IncidentContext::notifyObservers() {
+    for (size_t i = 0; i < observers.size(); ++i) {
+        if (observers[i]) {
+            observers[i]->onStateChange(this);
+        }
+    }
+}
+
 void IncidentContext::setState(IncidentState* state) {
     if (currentState != state) {
         delete currentState;
         currentState = state;
-        std::cout << "[IncidentContext] Transitioned to state: " << getStateName() << std::endl;
+        std::cout << "[IncidentContext] Incident " << incidentId 
+                  << " transitioned to state: " << getStateName() << std::endl;
+        
+        // Notify all attached observers when state updates
+        notifyObservers();
     }
 }
 
