@@ -2,28 +2,27 @@
 #define INCIDENTCONTEXT_H
 
 #include <string>
-#include <vector>
+#include "IncidentNotifier.h" // Delegate observer management to IncidentNotifier
 
 class IncidentState;
-class IIncidentObserver; // Observer interface forward declaration
+class IIncidentObserver;
 
 class IncidentContext {
 private:
     std::string incidentId;
     std::string location;
     IncidentState* currentState;
-    std::vector<IIncidentObserver*> observers; // List of registered observers
+    IncidentNotifier notifier; // Component handling observer operations
 
 public:
     IncidentContext(std::string id, std::string loc);
-    ~IncidentContext(); // Destructor cleans up currentState
+    ~IncidentContext();
 
-    // Observer Pattern interface methods
+    // Delegate Observer management to the internal IncidentNotifier
     void attach(IIncidentObserver* observer);
     void detach(IIncidentObserver* observer);
-    void notifyObservers();
 
-    // State Pattern interface methods
+    // State Pattern methods
     void setState(IncidentState* state);
     std::string getId() const;
     std::string getLocation() const;

@@ -3,7 +3,6 @@
 #include "ReportedState.h"
 #include "IIncidentObserver.h"
 #include <iostream>
-#include <algorithm>
 
 IncidentContext::IncidentContext(std::string id, std::string loc)
     : incidentId(id), location(loc) {
@@ -18,21 +17,11 @@ IncidentContext::~IncidentContext() {
 }
 
 void IncidentContext::attach(IIncidentObserver* observer) {
-    if (observer) {
-        observers.push_back(observer);
-    }
+    notifier.attach(observer);
 }
 
 void IncidentContext::detach(IIncidentObserver* observer) {
-    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
-}
-
-void IncidentContext::notifyObservers() {
-    for (size_t i = 0; i < observers.size(); ++i) {
-        if (observers[i]) {
-            observers[i]->onStateChange(this);
-        }
-    }
+    notifier.detach(observer);
 }
 
 void IncidentContext::setState(IncidentState* state) {
@@ -42,24 +31,16 @@ void IncidentContext::setState(IncidentState* state) {
         std::cout << "[IncidentContext] Incident " << incidentId 
                   << " transitioned to state: " << getStateName() << std::endl;
         
-        // Notify all attached observers when state updates
-        notifyObservers();
+        // Notify subscribers via IncidentNotifier
+        notifier.notifyObservers(this);
     }
 }
 
-std::string IncidentContext::getId() const {
-    return incidentId;
-}
-
-std::string IncidentContext::getLocation() const {
-    return location;
-}
+std::string IncidentContext::getId() const { return incidentId; }
+std::string IncidentContext::getLocation() const { return location; }
 
 std::string IncidentContext::getStateName() const {
-    if (currentState) {
-        return currentState->getName();
-    }
-    return "Unknown";
+    return currentState ? currentState->getName() : "Unknown";
 }
 
 void IncidentContext::dispatch() {
