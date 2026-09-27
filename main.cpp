@@ -58,6 +58,7 @@ public:
 };
 
 void runScenario1();
+void runScenario2(); // ADDED: Declaration for the second scenario
 
 int main() {
     std::cout << "=================================================================\n";
@@ -197,6 +198,8 @@ int main() {
     std::cout << "=================================================================\n";
 
     runScenario1();
+    runScenario2(); // ADDED: Execute the new scenario
+
     return 0;
 }
 
@@ -247,5 +250,65 @@ void runScenario1()
 
     std::cout << "\n==================================================" << std::endl;
     std::cout << "              SCENARIO 1 COMPLETE" << std::endl;
+    std::cout << "==================================================" << std::endl;
+}
+
+// ADDED: Second runtime story demonstrating a localized medical emergency 
+// focusing on Mediator communications and Command panel undo functionality.
+void runScenario2()
+{
+    std::cout << "\n==================================================" << std::endl;
+    std::cout << "       SCENARIO 2: LOCALIZED MEDICAL EMERGENCY" << std::endl;
+    std::cout << "==================================================" << std::endl;
+
+    // 1. Mediator & Services Setup
+    CampusMediator mediator;
+    SecurityService security(&mediator);
+    AccessControlService accessControl(&mediator);
+    MedicalService medical(&mediator);
+    ConcreteNotifier notifier(&mediator);
+
+    mediator.registerColleague(&security);
+    mediator.registerColleague(&accessControl);
+    mediator.registerColleague(&medical);
+    mediator.registerColleague(&notifier);
+
+    // 2. State & Observer Setup
+    IncidentContext incident("INC002", "Main Library - Floor 2");
+    MockObserver uiDashboard;
+    incident.attach(&uiDashboard);
+
+    // 3. Command Setup
+    OperatorControlPanel controlPanel;
+
+    std::cout << "\n[1] Student collapses. Incident reported." << std::endl;
+    std::cout << "[System] Incident " << incident.getId() << " state: " << incident.getStateName() << std::endl;
+
+    std::cout << "\n[2] Medical Service signals need for assistance (Testing Mediator)" << std::endl;
+    medical.requestMedicalAssistance(incident.getLocation());
+
+    std::cout << "\n[3] Operator officially dispatches units via Control Panel" << std::endl;
+    ICommand* dispatchCmd = new DispatchUnitsCommand(&security, &incident);
+    controlPanel.submitAndExecute(dispatchCmd); // Incident shifts to Active state
+
+    std::cout << "\n[4] Operator panics and locks down the Library" << std::endl;
+    ICommand* lockCmd = new LockBuildingCommand(&accessControl, incident.getLocation());
+    controlPanel.submitAndExecute(lockCmd);
+
+    std::cout << "\n[5] Operator realizes Paramedics need entry, uses UNDO feature" << std::endl;
+    controlPanel.undoLastAction(); // Reverses the lockdown
+
+    std::cout << "\n[6] Operator broadcasts localized information alert" << std::endl;
+    ICommand* alertCmd = new BroadcastAlertCommand(&notifier, "Avoid Area: Paramedics responding to medical event.", incident.getLocation());
+    controlPanel.submitAndExecute(alertCmd);
+
+    std::cout << "\n[7] Medical situation handled, Operator resolves incident" << std::endl;
+    ICommand* resolveCmd = new ResolveIncidentCommand(&incident);
+    controlPanel.submitAndExecute(resolveCmd); // Incident shifts to Resolved state
+
+    std::cout << "\n[8] Final incident state: " << incident.getStateName() << std::endl;
+
+    std::cout << "\n==================================================" << std::endl;
+    std::cout << "              SCENARIO 2 COMPLETE" << std::endl;
     std::cout << "==================================================" << std::endl;
 }
