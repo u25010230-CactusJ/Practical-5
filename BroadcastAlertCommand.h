@@ -16,8 +16,8 @@ class BroadcastAlertCommand : public ICommand
     public:
         BroadcastAlertCommand(ModernNotifier* notifier, std::string location, std::string msg);
 
-        virtual void execute() override;
-        virtual void undo() override;
+        virtual bool execute() override;
+        virtual bool undo() override;
 
         ~BroadcastAlertCommand() override = default;
 };

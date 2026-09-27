@@ -17,8 +17,8 @@ class DispatchUnitsCommand : public ICommand
     public:
         DispatchUnitsCommand(SecurityService* security, IncidentContext* incident);
 
-        virtual void execute() override;
-        virtual void undo() override;
+        virtual bool execute() override;
+        virtual bool undo() override;
 
         ~DispatchUnitsCommand() override = default;
 };

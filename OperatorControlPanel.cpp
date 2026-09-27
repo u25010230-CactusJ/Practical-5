@@ -9,8 +9,16 @@ void OperatorControlPanel::submitAndExecute(ICommand* command)
         return;
     }
 
-    command->execute();
-    history.push(command);
+    if(command->execute())
+    {
+        history.push(command);
+        std::cout << "[Operator] Command executed successfully."<< std::endl;
+    }
+    else
+    {
+        std::cout << "[Operator] Command failed. " << "It will not be added to history." << std::endl;
+        delete command;
+    }
 }
 
 void OperatorControlPanel::undoLastAction()
@@ -26,11 +34,22 @@ void OperatorControlPanel::undoLastAction()
     if(command == nullptr)
     {
         std::cout << "[Operator] ERROR: Cannot undo a null command." << std::endl;
+
+        history.pop();
         return;
     }
 
-    command->undo();
-    history.pop();
+    if(command->undo())
+    {
+        std::cout << "[Operator] Last command undone successfully." << std::endl;
+
+        history.pop();
+        delete command;
+    }
+    else
+    {
+        std::cout << "[Operator] Unable to undo the last command." << std::endl;
+    }
 }
 
 OperatorControlPanel::~OperatorControlPanel()
@@ -43,7 +62,7 @@ OperatorControlPanel::~OperatorControlPanel()
         {
             delete command;
         }
-        
+
         history.pop();
     }
 }
