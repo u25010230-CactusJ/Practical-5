@@ -2,13 +2,9 @@
 #define CAMPUSMEDIATOR_H
 
 #include "IMediator.h"
-#include "IIncidentObserver.h"
 #include <vector>
 
-class Colleague;
-class IncidentContext;
-
-class CampusMediator : public IMediator, public IIncidentObserver
+class CampusMediator : public IMediator
 {
     private:
         std::vector<Colleague*> colleagues;
@@ -17,7 +13,6 @@ class CampusMediator : public IMediator, public IIncidentObserver
         void registerColleague(Colleague* newCol);
         void deregisterColleague(Colleague* newCol);
         virtual void notify(Colleague* sender) override;
-        virtual void onStateChange(IncidentContext* context) override;
         
         ~CampusMediator() override = default;
 };
