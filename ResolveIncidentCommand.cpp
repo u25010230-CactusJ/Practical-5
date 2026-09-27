@@ -5,32 +5,36 @@ ResolveIncidentCommand::ResolveIncidentCommand(IncidentContext* incident)
     : incident(incident), executed(false)
 {}
 
-void ResolveIncidentCommand::execute()
+bool ResolveIncidentCommand::execute()
 {
-    if(incident == nullptr)
+    if(this->incident == nullptr)
     {
-        return;
+        this->executed = false;
+        return false;
     }
 
-    if(incident->resolve())
+    if(this->incident->resolve())
     {
-        executed = true;
+        this->executed = true;
+        return true;
     }
-    else
-    {
-        executed = false;
-    }
+
+    this->executed = false;
+    return false;
 }
 
-void ResolveIncidentCommand::undo()
+bool ResolveIncidentCommand::undo()
 {
-    if(!executed || incident == nullptr)
+    if(!this->executed || this->incident == nullptr)
     {
-        return;
+        return false;
     }
 
-    if(incident->restoreState())
+    if(this->incident->restoreState())
     {
-        executed = false;
+        this->executed = false;
+        return true;
     }
+
+    return false;
 }

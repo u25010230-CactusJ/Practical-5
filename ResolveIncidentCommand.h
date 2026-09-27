@@ -14,8 +14,8 @@ class ResolveIncidentCommand : public ICommand
     public:
         explicit ResolveIncidentCommand(IncidentContext* incident);
 
-        void execute() override;
-        void undo() override;
+        virtual bool execute() override;
+        virtual bool undo() override;
 
         ~ResolveIncidentCommand() override = default;
 };

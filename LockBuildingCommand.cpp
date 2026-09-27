@@ -5,17 +5,29 @@ LockBuildingCommand::LockBuildingCommand(AccessControlService* accessControl, st
     : accessControl(accessControl), location(location), isLocked(false)
 {}
 
-void LockBuildingCommand::execute()
+bool LockBuildingCommand::execute()
 {
-    accessControl->restrictDoors(this->location);
+    if(this->accessControl == nullptr)
+    {
+        this->isLocked = false;
+        return false;
+    }
+
+    this->accessControl->restrictDoors(this->location);
     this->isLocked = true;
+
+    return true;
 }
 
-void LockBuildingCommand::undo()
+bool LockBuildingCommand::undo()
 {
-    if(this->isLocked)
+    if(!this->isLocked || this->accessControl == nullptr)
     {
-        accessControl->unlockEmergencyExits(this->location);
-        this->isLocked = false;
+        return false;
     }
+
+    this->accessControl->unlockEmergencyExits(this->location);
+    this->isLocked = false;
+
+    return true;
 }
