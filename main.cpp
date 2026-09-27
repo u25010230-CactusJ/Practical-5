@@ -23,6 +23,9 @@
 #include "DispatchUnitsCommand.h"
 #include "LockBuildingCommand.h"
 #include "BroadcastAlertCommand.h"
+#include "ResolveIncidentCommand.h"
+
+#include "EmergencyFacade.h"
 
 // Concrete implementation for ModernNotifier pure virtual sendAlert
 class ConcreteNotifier : public ModernNotifier {
@@ -53,6 +56,8 @@ public:
         }
     }
 };
+
+void runScenario1();
 
 int main() {
     std::cout << "=================================================================\n";
@@ -191,5 +196,56 @@ int main() {
     std::cout << "          ALL PATTERN TESTS COMPLETED SUCCESSFULLY!              \n";
     std::cout << "=================================================================\n";
 
+    runScenario1();
     return 0;
+}
+
+void runScenario1()
+{
+    std::cout << "\n==================================================" << std::endl;
+    std::cout << "       SCENARIO 1: SCIENCE BUILDING EMERGENCY" << std::endl;
+    std::cout << "==================================================" << std::endl;
+
+    EmergencyFacade facade;
+    IncidentContext incident("INC001", "Science Block");
+
+    incident.attach(&facade.getMediator());
+
+    std::cout << "\n[1] Incident reported" << std::endl;
+    std::cout << "[System] Incident " << incident.getId()
+            << " is in state: " << incident.getStateName() << std::endl;
+
+    std::cout << "\n[2] Operator dispatches security" << std::endl;
+
+    DispatchUnitsCommand dispatchCmd(facade.getSecurity(), &incident);
+    dispatchCmd.execute();
+
+    std::cout << "\n[3] Incident state: "
+            << incident.getStateName() << std::endl;
+
+    std::cout << "\n[4] Operator locks building" << std::endl;
+
+    LockBuildingCommand lockCmd(facade.getAccessControl(), incident.getLocation());
+    lockCmd.execute();
+
+    std::cout << "\n[5] Operator broadcasts emergency alert" << std::endl;
+
+    BroadcastAlertCommand alertCmd(facade.getNotifier(), incident.getLocation(), "EVACUATE IMMEDIATELY: Fire reported in laboratory");
+    alertCmd.execute();
+
+    std::cout << "\n[6] EmergencyFacade executes evacuation workflow" << std::endl;
+
+    facade.executeFullCampusEvacuationWorkflow(incident, "Fire reported in laboratory");
+
+    std::cout << "\n[7] Operator resolves incident" << std::endl;
+
+    ResolveIncidentCommand resolveCmd(&incident);
+    resolveCmd.execute();
+
+    std::cout << "\n[8] Final incident state: "
+            << incident.getStateName() << std::endl;
+
+    std::cout << "\n==================================================" << std::endl;
+    std::cout << "              SCENARIO 1 COMPLETE" << std::endl;
+    std::cout << "==================================================" << std::endl;
 }
