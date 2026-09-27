@@ -28,8 +28,9 @@ public:
     std::string getLocation() const;
     std::string getStateName() const;
 
-    void dispatch();
-    void resolve();
+    bool dispatch();
+    bool resolve();
+    bool restoreState();
 };
 
 #endif // INCIDENTCONTEXT_H

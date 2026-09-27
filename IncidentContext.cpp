@@ -43,16 +43,30 @@ std::string IncidentContext::getStateName() const {
     return currentState ? currentState->getName() : "Unknown";
 }
 
-void IncidentContext::dispatch() {
+bool IncidentContext::dispatch() {
     std::cout << "\n[IncidentContext] Dispatch requested for incident: " << incidentId << std::endl;
     if (currentState) {
-        currentState->handleDispatch(*this);
+        return currentState->handleDispatch(*this);
     }
+
+    return false;
 }
 
-void IncidentContext::resolve() {
+bool IncidentContext::resolve() {
     std::cout << "\n[IncidentContext] Resolve requested for incident: " << incidentId << std::endl;
     if (currentState) {
-        currentState->handleResolve(*this);
+        return currentState->handleResolve(*this);
     }
+
+    return false;
+}
+
+bool IncidentContext::restoreState()
+{
+    if(currentState == nullptr)
+    {
+        return false;
+    }
+
+    return currentState->previousState(*this);
 }

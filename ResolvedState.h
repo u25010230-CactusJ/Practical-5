@@ -8,8 +8,9 @@ class IncidentContext;
 class ResolvedState : public IncidentState {
 public:
     std::string getName() override;
-    void handleDispatch(IncidentContext& context) override;
-    void handleResolve(IncidentContext& context) override;
+    bool handleDispatch(IncidentContext& context) override;
+    bool handleResolve(IncidentContext& context) override;
+    bool previousState(IncidentContext& context) override;
 };
 
 #endif // RESOLVEDSTATE_H
