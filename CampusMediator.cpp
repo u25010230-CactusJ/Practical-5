@@ -1,5 +1,6 @@
 #include "CampusMediator.h"
 #include "Colleague.h"
+#include "IncidentContext.h"
 #include <iostream>
 
 void CampusMediator::registerColleague(Colleague* newCol)
@@ -56,4 +57,13 @@ void CampusMediator::notify(Colleague* sender)
     {
         std::cout << "[Mediator] WARNING: No colleague handled event '" << event << "'" << std::endl;
     }
+}
+
+void CampusMediator::onStateChange(IncidentContext* context)
+{
+    if(context == nullptr) return;
+
+    std::cout << "[Mediator] Incident " << context->getId()
+              << " changed state to " << context->getStateName()
+              << " at " << context->getLocation() << std::endl;
 }
