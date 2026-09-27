@@ -9,11 +9,8 @@ using namespace std;
 
 EmergencyFacade::EmergencyFacade()
     : security(&mediator), accessControl(&mediator), paAdapter(&mediator) {
-    
-    // Register colleague services using your mediator's registerColleague method
-    mediator.registerColleague(&security);
-    mediator.registerColleague(&accessControl);
-    mediator.registerColleague(&paAdapter);
+    // CampusMediator acts as the concrete observer/mediator.
+    // Individual services hold references to the mediator via their Colleague constructors.
 }
 
 CampusMediator& EmergencyFacade::getMediator() {
@@ -34,7 +31,7 @@ void EmergencyFacade::executeFullCampusEvacuationWorkflow(IncidentContext& incid
         &paAdapter, incident.getLocation(), "EVACUATE IMMEDIATELY: " + reason);
     invoker.submitAndExecute(alertCmd);
 
-    // Step 3: Dispatch units using raw pointers
+    // Step 3: Dispatch security units using raw pointers (triggers observer/mediator updates)
     ICommand* dispatchCmd = new DispatchUnitsCommand(&security, &incident);
     invoker.submitAndExecute(dispatchCmd);
 
