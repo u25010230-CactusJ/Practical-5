@@ -1,5 +1,6 @@
 #include "ActiveState.h"
 #include "ResolvedState.h"
+#include "ReportedState.h"
 #include "IncidentContext.h"
 #include <iostream>
 
