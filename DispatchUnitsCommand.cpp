@@ -6,18 +6,45 @@ DispatchUnitsCommand::DispatchUnitsCommand(SecurityService* security, IncidentCo
     : security(security), incident(incident), executed(false)
 {}
 
-void DispatchUnitsCommand::execute()
+bool DispatchUnitsCommand::execute()
 {
-    this->incident->dispatch();
+    if(this->security == nullptr || this->incident == nullptr)
+    {
+        this->executed = false;
+        return false;
+    }
+
+    if(!this->incident->dispatch())
+    {
+        this->executed = false;
+        return false;
+    }
+
     this->security->dispatchTeam(this->incident->getLocation());
     this->executed = true;
+
+    return true;
 }
 
-void DispatchUnitsCommand::undo()
+bool DispatchUnitsCommand::undo()
 {
-    if(this->executed)
+    if(!this->executed)
+    {
+        return false;
+    }
+
+    if(this->security != nullptr && this->incident != nullptr)
     {
         this->security->cancelDispatch(this->incident->getLocation());
+
+        if(!this->incident->restoreState())
+        {
+            return false;
+        }
+
         this->executed = false;
+        return true;
     }
+
+    return false;
 }

@@ -5,12 +5,24 @@ BroadcastAlertCommand::BroadcastAlertCommand(ModernNotifier* notifier, std::stri
     : notifier(notifier), location(location), msg(msg)
 {}
 
-void BroadcastAlertCommand::execute()
+bool BroadcastAlertCommand::execute()
 {
+    if(this->notifier == nullptr)
+    {
+        return false;
+    }
+
     this->notifier->sendAlert(this->location, this->msg);
+    return true;
 }
 
-void BroadcastAlertCommand::undo()
+bool BroadcastAlertCommand::undo()
 {
-    notifier->cancelAlert(location);
-} 
+    if(this->notifier == nullptr)
+    {
+        return false;
+    }
+
+    this->notifier->cancelAlert(this->location);
+    return true;
+}
