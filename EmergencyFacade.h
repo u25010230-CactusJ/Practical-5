@@ -4,6 +4,7 @@
 #include "CampusMediator.h"
 #include "SecurityService.h"
 #include "AccessControlService.h"
+#include "MedicalService.h"
 #include "LegacyPAAdapter.h"
 #include "OperatorControlPanel.h"
 #include <string>
@@ -16,6 +17,7 @@ private:
     CampusMediator mediator;
     SecurityService security;
     AccessControlService accessControl;
+    MedicalService medical;
     LegacyPAAdapter paAdapter;
     OperatorControlPanel invoker;
 
@@ -25,6 +27,14 @@ public:
 
     void executeFullCampusEvacuationWorkflow(IncidentContext& incident, const std::string& reason);
     void cancelLastAction();
+
+
+    // this is for the interactive main
+    SecurityService& getSecurity();
+    AccessControlService& getAccessControl();
+    MedicalService& getMedical();
+    LegacyPAAdapter& getNotifier();
+    OperatorControlPanel& getControlPanel();
 };
 
-#endif
+#endif /*EMERGENCY_FACADE_H*/
