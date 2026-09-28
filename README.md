@@ -79,7 +79,6 @@ To compile:
 
 ```
 make
-''''
 ```
 
 This produces the executable:
@@ -106,6 +105,8 @@ The assessed demonstration must, however, be launched using Docker.
 
 ## 7. Running with Docker
 
+### 7.1 Running the testing main
+
 Build and start the application using:
 
 ```
@@ -118,6 +119,18 @@ To stop the application:
 
 ```
 docker compose down
+```
+
+### 7.2 Running the interactive main
+
+Uncomment the last 2 lines in `main()` 
+
+then 
+
+Build and start the application using:
+
+```
+docker compose run --rm campusguard
 ```
 
 ## 8. Valgrind
