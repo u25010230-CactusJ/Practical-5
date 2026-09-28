@@ -310,5 +310,5 @@ void runScenario2()
 
     std::cout << "\n==================================================" << std::endl;
     std::cout << "              SCENARIO 2 COMPLETE" << std::endl;
-    std::cout << "==================================================" << std::endl;
+    
 }
